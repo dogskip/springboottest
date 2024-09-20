@@ -1,0 +1,53 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.3'
+	id 'io.spring.dependency-management' version '1.1.6'
+	id 'io.freefair.lombok' version '8.4'
+
+}
+
+group = 'me.choi'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok:1.18.30' // 최신 버전을 사용하세요
+	annotationProcessor 'org.projectlombok:lombok:1.18.30'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'com.h2database:h2'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	// Spring Boot Starter Security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	// Thymeleaf Extras for Spring Security
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+	// Spring Security Test
+	testImplementation 'org.springframework.security:spring-security-test'
+	// JWT (JSON Web Token) 지원
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	// JAXB API
+	implementation 'javax.xml.bind:jaxb-api:2.3.1'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
