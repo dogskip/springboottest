@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Setter
 @Getter
 @Component
-@ConfigurationProperties("jwt") // application.properties 파일에 있는 jwt.issuer, jwt.secret-key 프로퍼티를 읽어옴
+@ConfigurationProperties("jwt") // application.yml 파일에 있는 jwt.issuer, jwt.secret-key 프로퍼티를 읽어옴
 public class JwtProperties {
     private String issuer;
     private String secretKey;

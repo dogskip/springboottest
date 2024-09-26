@@ -10,34 +10,26 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RestController // HTTP Response Body에 자바 객체를 바로 넣어주기 위해 사용
+@RestController
 public class BlogApiController {
-
     private final BlogService blogService;
-
     @PostMapping("/api/articles")
-    public ResponseEntity<Article> addArticle(@RequestBody AddArticleRequest request) {
-        Article savedArticle = blogService.save(request);
-
-        // HTTP 상태 코드 201 Created를 반환하고, 저장된 Article 객체를 반환
+    public ResponseEntity<Article> addArticle(@RequestBody AddArticleRequest request, Principal principal) {
+        Article savedArticle = blogService.save(request, principal.getName());
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(savedArticle);
     }
 
     @GetMapping("/api/articles")
     public ResponseEntity<List<ArticleResponse>> findAllArticles() {
-        // blogService.findAll() 메서드를 호출하여 Article 객체를 가져옴
-        // .stream() 메서드를 호출하여 스트림을 생성
-        // .map(ArticleResponse::new) 메서드를 호출하여 각 Article 객체를 ArticleResponse 객체로 변환
-        // .toList() 메서드를 호출하여 스트림을 리스트로 변환
         List<ArticleResponse> articles = blogService.findAll()
-                .stream() // Article 객체 리스트를 스트림으로 변환
-                .map(ArticleResponse::new) // 각 Article 객체를 ArticleResponse 객체로 매핑
-                .toList(); // 스트림을 리스트로 변환
-        // HTTP 상태 코드 200 OK를 반환하고, 변환된 ArticleResponse 리스트를 반환
+                .stream()
+                .map(ArticleResponse::new)
+                .toList();
         return ResponseEntity.ok()
                 .body(articles);
     }
